@@ -25,6 +25,9 @@ This project aims to develop a machine learning model that predicts the most sui
 ## Results
 - Achieved approximately 99% accuracy on both training and test datasets.
 
+
+![Crop Prediction Model](static/img/crop-prediction.png)
+
 ## User Input
 - Soil contents: Nitrogen (N), Phosphorus (P), Potassium (K), and pH levels.
 - Geolocation: State and District.
