@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ML</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      background-image: url('/static/img/farm.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+    }
+
+    .input-field {
+      background-color: transparent;
+      border: 2px solid #000; /* Increased border visibility */
+      box-shadow: none;
+    }
+
+    .input-field::placeholder {
+      color: #000000; 
+    }
+
+    .input-field:focus {
+      border-color: #ffffff; /* Focused state border color */
+      outline: none;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Adds a subtle glow effect */
+    }
+
+    #predi {
+      color: rgb(255, 255, 255); /* Changed text color to black */
+      font-size: 1.5rem;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center">
+
+  <div class="p-8 rounded-lg shadow-lg w-full max-w-md text-center">
+    <h1 class="text-3xl font-bold mb-6 font-Pacifico" style="color: rgb(50, 215, 111);">Crop Prediction</h1>
+
+    <form action="{{ url_for('predict') }}" method="post" class="space-y-4">
+      <input type="text" name="Nitrogen" placeholder="Nitrogen" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="text" name="Phosphorus" placeholder="Phosphorus" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="text" name="Potassium" placeholder="Potassium" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="text" name="temperature" placeholder="Temperature" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="text" name="humidity" placeholder="Humidity" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="text" name="pH" placeholder="pH" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="text" name="rainfall" placeholder="Rainfall" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+
+      <button type="submit" class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Predict</button>
+    </form>
+
+    <br>
+
+    <h1 id="predi" class="text-xl text-black font-bold">
+      {{ prediction_text }}
+    </h1>
+
+  </div>
+
+</body>
+</html>
