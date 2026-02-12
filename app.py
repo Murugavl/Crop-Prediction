@@ -4,6 +4,7 @@ import pickle
 
 # Create flask app
 flask_app = Flask(__name__)
+app = flask_app # Alias for Vercel
 model = pickle.load(open("crop_prediction.pkl", "rb"))
 
 @flask_app.route("/")

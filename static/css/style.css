@@ -1,0 +1,22 @@
+body {
+    background-image: url('/static/img/farm.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.input-field {
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    transform: scale(1.02);
+}

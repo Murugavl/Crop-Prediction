@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 import pickle
 
 # Load the dataset
-data = pd.read_csv('Crop_recommendation.csv')  # Replace 'crop_data.csv' with your dataset file
+data = pd.read_csv('dataset/Crop_recommendation.csv')  # Replace 'crop_data.csv' with your dataset file
 
 # view the dataset
 data.head()
