@@ -13,10 +13,15 @@ def Home():
 
 @flask_app.route("/predict", methods = ["POST"])
 def predict():
-    float_features = [float(x) for x in request.form.values()]
-    features = [np.array(float_features)]
-    prediction = model.predict(features)
-    return render_template("index.html", prediction_text = "The Predicted Crop is {}".format(prediction))
+    try:
+        float_features = [float(x) for x in request.form.values()]
+        features = [np.array(float_features)]
+        prediction = model.predict(features)
+        return render_template("index.html", prediction_text = "The Predicted Crop is {}".format(prediction[0]))
+    except ValueError:
+        return render_template("index.html", prediction_text = "Error: Please verify that all inputs are valid numbers.")
+    except Exception as e:
+        return render_template("index.html", prediction_text = "An error occurred: {}".format(str(e)))
 
 if __name__ == "__main__":
     flask_app.run(debug=True)
