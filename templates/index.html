@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>ML</title>
@@ -19,22 +20,26 @@
 
     .input-field {
       background-color: transparent;
-      border: 2px solid #000; /* Increased border visibility */
+      border: 2px solid #000;
+      /* Increased border visibility */
       box-shadow: none;
     }
 
     .input-field::placeholder {
-      color: #000000; 
+      color: #000000;
     }
 
     .input-field:focus {
-      border-color: #ffffff; /* Focused state border color */
+      border-color: #ffffff;
+      /* Focused state border color */
       outline: none;
-      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Adds a subtle glow effect */
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+      /* Adds a subtle glow effect */
     }
 
     #predi {
-      color: rgb(255, 255, 255); /* Changed text color to black */
+      color: rgb(255, 255, 255);
+      /* Changed text color to black */
       font-size: 1.5rem;
       text-align: center;
       margin-top: 20px;
@@ -47,17 +52,93 @@
   <div class="p-8 rounded-lg shadow-lg w-full max-w-md text-center">
     <h1 class="text-3xl font-bold mb-6 font-Pacifico" style="color: rgb(50, 215, 111);">Crop Prediction</h1>
 
-    <form action="{{ url_for('predict') }}" method="post" class="space-y-4">
-      <input type="number" step="any" name="Nitrogen" placeholder="Nitrogen" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
-      <input type="number" step="any" name="Phosphorus" placeholder="Phosphorus" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
-      <input type="number" step="any" name="Potassium" placeholder="Potassium" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
-      <input type="number" step="any" name="temperature" placeholder="Temperature" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
-      <input type="number" step="any" name="humidity" placeholder="Humidity" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
-      <input type="number" step="any" name="pH" placeholder="pH" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
-      <input type="number" step="any" name="rainfall" placeholder="Rainfall" required="required" class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+    <div class="flex gap-2">
+      <input type="text" id="cityInput" placeholder="Enter City Name"
+        class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <button type="button" onclick="fetchWeather()"
+        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Fetch Data</button>
+    </div>
+    <p id="weatherStatus" class="text-sm text-gray-200 hidden"></p>
 
-      <button type="submit" class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Predict</button>
+    <div class="grid grid-cols-2 gap-4">
+      <input type="number" step="any" name="Nitrogen" placeholder="Nitrogen" required="required"
+        class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="number" step="any" name="Phosphorus" placeholder="Phosphorus" required="required"
+        class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="number" step="any" name="Potassium" placeholder="Potassium" required="required"
+        class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+      <input type="number" step="any" name="pH" placeholder="pH" required="required"
+        class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+    </div>
+
+    <input type="number" step="any" id="tempInput" name="temperature" placeholder="Temperature (°C)" required="required"
+      class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+    <input type="number" step="any" id="humidityInput" name="humidity" placeholder="Humidity (%)" required="required"
+      class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+    <input type="number" step="any" id="rainInput" name="rainfall" placeholder="Rainfall (mm)" required="required"
+      class="w-full p-3 rounded-lg input-field focus:ring-2 focus:ring-green-500 focus:border-transparent">
+
+    <button type="submit"
+      class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Predict</button>
     </form>
+
+    <script>
+      async function fetchWeather() {
+        const city = document.getElementById('cityInput').value;
+        const status = document.getElementById('weatherStatus');
+        const geoApiUrl = "{{ geo_api_url }}";
+        const weatherApiUrl = "{{ weather_api_url }}";
+
+        if (!city) {
+          alert("Please enter a city name");
+          return;
+        }
+
+        status.innerText = "Fetching weather for " + city + "...";
+        status.classList.remove('hidden');
+        status.classList.remove('text-red-300', 'text-green-300');
+        status.classList.add('text-yellow-300'); // Better visibility
+        status.style.textShadow = "1px 1px 2px black"; // Add shadow for readability against background
+
+        try {
+          // 1. Geocoding
+          const geoUrl = `${geoApiUrl}?name=${city}&count=1&language=en&format=json`;
+          const geoRes = await fetch(geoUrl);
+          const geoData = await geoRes.json();
+
+          if (!geoData.results || geoData.results.length === 0) {
+            throw new Error("City not found");
+          }
+
+          const { latitude, longitude } = geoData.results[0];
+
+          // 2. Weather
+          const weatherUrl = `${weatherApiUrl}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,rain&forecast_days=1`;
+          const weatherRes = await fetch(weatherUrl);
+          const weatherData = await weatherRes.json();
+
+          const current = weatherData.current;
+
+          // 3. Update Inputs
+          document.getElementById('tempInput').value = current.temperature_2m;
+          document.getElementById('humidityInput').value = current.relative_humidity_2m;
+          document.getElementById('rainInput').value = current.rain;
+
+          status.innerText = "Weather data updated successfully!";
+          status.classList.remove('text-yellow-300');
+          status.classList.add('text-green-400'); // Brighter green
+
+          // Debugging log
+          console.log("Weather fetched:", current);
+
+        } catch (error) {
+          console.error(error);
+          status.innerText = "Error: " + error.message;
+          status.classList.remove('text-yellow-300');
+          status.classList.add('text-red-400'); // Brighter red
+        }
+      }
+    </script>
 
     <br>
 
@@ -68,4 +149,5 @@
   </div>
 
 </body>
+
 </html>

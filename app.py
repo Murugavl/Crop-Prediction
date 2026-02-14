@@ -1,15 +1,22 @@
-import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Create flask app
 flask_app = Flask(__name__)
-app = flask_app # Alias for Vercel
+# Alias for Vercel
+app = flask_app 
 model = pickle.load(open("crop_prediction.pkl", "rb"))
 
 @flask_app.route("/")
 def Home():
-    return render_template("index.html")
+    return render_template("index.html", 
+                         geo_api_url=os.getenv('GEOCODING_API_URL'),
+                         weather_api_url=os.getenv('WEATHER_API_URL'))
 
 @flask_app.route("/predict", methods = ["POST"])
 def predict():
