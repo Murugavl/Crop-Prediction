@@ -1,74 +1,85 @@
-# Crop Prediction Using Deep Learning
+# 🌱 Smart Crop Prediction System
 
-## Project Overview
-This project aims to develop a machine learning model that predicts the most suitable crops for cultivation based on various environmental and soil factors. By integrating historical data, geolocation, and weather information, the model provides accurate predictions to help farmers make informed decisions.
+## 🌟 Project Overview
+This project is an advanced Machine Learning web application that predicts the most suitable crop for cultivation based on **scientific soil analysis** and **real-time environmental data**.
 
-## Features
-- Utilizes Deep Neural Networks (DNN) for crop prediction.
-- Considers soil contents (Nitrogen, Phosphorus, Potassium, pH), temperature, humidity, and rainfall as input features.
-- Leverages weather and geolocation APIs for real-time data.
-- Includes a user-friendly web interface for data input and prediction display.
+By integrating **Open-Meteo APIs**, users can simply enter their city name, and the system automatically fetches critical climate parameters (Temperature, Humidity, Rainfall) to provide accurate, data-driven recommendations.
 
-## Dataset
-- The dataset contains 2,200 samples across 22 different crops.
-- Each crop has 100 samples.
-- Features include soil contents (N, P, K, pH), temperature, humidity, and rainfall.
+## 🚀 Key Features
+- **Intelligent Crop Recommendation**: Uses a robust **Random Forest Classifier** trained on 2,200 agricultural samples.
+- **Micro-Climate Analysis**: Integrates directly with weather satellites via Open-Meteo to fetch real-time:
+  - 🌡️ Temperature
+  - 💧 Humidity
+  - 🌧️ Rainfall (Seasonal approximation)
+- **Automatic Geolocation**: Just type a city name (e.g., "Coimbatore"), and the system geolocates it instantly.
+- **Premium UI/UX**: Features a modern **Glassmorphism Design**, dark mode aesthetics, and smooth animations.
+- **Mobile Responsive**: Fully optimized for use on smartphones and tablets in the field.
 
-## Model Architecture
-- Three hidden layers with 64, 128, and 64 neurons, respectively.
-- SeLU activation function for input and hidden layers.
-- Softmax activation function for the output layer.
-- Categorical cross-entropy loss function.
-- ADAM optimizer.
-- 100 epochs with an 80:20 train-test split ratio.
+## 📊 Dataset & Model
+- **Dataset**: `Crop_recommendation.csv` containing 2,200 samples for 22 unique crops.
+- **Input Features**:
+  1. **Nitrogen (N)**: Ratio of Nitrogen content in soil.
+  2. **Phosphorus (P)**: Ratio of Phosphorus content in soil.
+  3. **Potassium (K)**: Ratio of Potassium content in soil.
+  4. **pH**: Soil acidity/alkalinity level.
+  5. **Environmental Factors**: Temperature, Humidity, Rainfall (Auto-fetched).
+- **Algorithm**: **Random Forest Classifier** (Scikit-Learn).
+  - Selected for its high accuracy and ability to handle non-linear relationships in agricultural data.
+  - Achieves **~99% Accuracy** on test data.
 
-## Results
-- Achieved approximately 99% accuracy on both training and test datasets.
+## 🛠️ Technology Stack
+- **Frontend**: HTML5, **Tailwind CSS** (via CDN), JavaScript (ES6+), Google Fonts (Poppins).
+- **Backend**: Python, **Flask**.
+- **Machine Learning**: Scikit-Learn, Pandas, NumPy.
+- **APIs**: Open-Meteo (Geocoding & Weather).
+- **Deployment**: Vercel-ready configuration.
 
+## 📸 Screenshots
+*(Add your screenshots here: `static/img/screenshot1.png`)*
 
-![Crop Prediction Model](static/img/crop-prediction.png)
+## 📥 Installation & Setup
 
-## User Input
-- Soil contents: Nitrogen (N), Phosphorus (P), Potassium (K), and pH levels.
-- Geolocation: State and District.
-- Month (Season) of cultivation.
-- Temperature and humidity values retrieved through weather APIs.
-
-## Web Interface
-- Interactive interface for users to input data.
-- Real-time predictions based on the input data.
-
-## Installation and Usage
-1. Clone the repository:
-   ```
+1. **Clone the Repository**
+   ```bash
    git clone https://github.com/Murugavl/Crop-Prediction.git
-   ```
-2. Navigate to the project directory:
-   ```
    cd Crop-Prediction
    ```
-3. Install the required dependencies:
+
+2. **Create Virtual Environment (Recommended)**
+   ```bash
+   python -m venv .venv
+   # Windows
+   .venv\Scripts\activate
+   # Mac/Linux
+   source .venv/bin/activate
    ```
+
+3. **Install Dependencies**
+   ```bash
    pip install -r requirements.txt
    ```
-4. Run the main script:
+   *Note: Ensure `scikit-learn` version matches the one used to train the model.*
+
+4. **Configuration**
+   The project uses a `.env` file for API configuration. A default one is created automatically, but ensure you have:
+   ```env
+   GEOCODING_API_URL=Your_api_key
+   WEATHER_API_URL=Your_api_key
    ```
+
+5. **Run the Application**
+   ```bash
    python app.py
    ```
-5. Access the web interface at `http://localhost:5000`.
+   Access the app at `http://localhost:5000`.
 
-## File Structure
-- `dataset/`: Contains datasets used for training and validation.
-- `model/`: Includes the model architecture and saved model weights.
-- `app.py`: Main script for running the application.
-- `index.html`: File related to the web interface.
-- `requirements.txt`: Lists the dependencies required to run the project.
+## 🤝 Contributing
+Contributions are welcome!
+1. Fork the Project.
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the Branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any improvements or new features.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-
-
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.
