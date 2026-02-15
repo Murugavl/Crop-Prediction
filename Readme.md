@@ -61,17 +61,30 @@ By integrating **Open-Meteo APIs**, users can simply enter their city name, and 
    *Note: Ensure `scikit-learn` version matches the one used to train the model.*
 
 4. **Configuration**
-   The project uses a `.env` file for API configuration. A default one is created automatically, but ensure you have:
+   The project uses a `.env` file for API configuration. A default one is created automatically (Open-Meteo requires no API key for basic usage):
    ```env
-   GEOCODING_API_URL=Your_api_key
-   WEATHER_API_URL=Your_api_key
+   GEOCODING_API_URL=https://geocoding-api.open-meteo.com/v1/search
+   WEATHER_API_URL=https://api.open-meteo.com/v1/forecast
    ```
 
 5. **Run the Application**
    ```bash
    python app.py
    ```
-   Access the app at `http://localhost:5000`.
+   access the app at `http://localhost:5000`.
+
+## 🐳 Docker Deployment
+
+1. **Build the Image**
+   ```bash
+   docker build -t crop-prediction-app .
+   ```
+
+2. **Run the Container**
+   ```bash
+   docker run -p 5000:5000 crop-prediction-app
+   ```
+   Open `http://localhost:5000` in your browser.
 
 ## 🤝 Contributing
 Contributions are welcome!
