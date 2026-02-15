@@ -35,7 +35,7 @@ By integrating **Open-Meteo APIs**, users can simply enter their city name, and 
 - **Deployment**: Vercel-ready configuration.
 
 ## 📸 Screenshots
-![Crop Prediction](static/img/crop-prediction.png)
+![Crop-Prediction-Model]
 
 ## 📥 Installation & Setup
 
